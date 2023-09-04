@@ -12,7 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       render () {
           const element = document.createElement('div');
-          this.classes.forEach(className => element.classList.add(className));
+          if(this.classes.length === 0){
+              this.element = 'beerCard';
+              element.classList.add(this.element);
+          } else {
+              this.classes.forEach(className => element.classList.add(className));
+          }
           element.innerHTML = `
             <img class="beerImg" src="${this.src}" alt="${this.alt}">
             <h3 class="beerHeader">"${this.title}"</h3>
@@ -28,8 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'hmelzilla',
     'Хмельзилла',
     'Хмельзилла - дерзкая, яркая, охмелит разум и охмурит сердце – одним словом настоящая IPA!',
-    '.beerConteiner',
-    'beerCard'
+    '.beerConteiner'
   ).render();
 
   new BeerCard (
