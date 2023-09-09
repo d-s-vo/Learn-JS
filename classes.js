@@ -1,5 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
- 
+  
+  const modalBtn = document.querySelector('.btnmodal'),
+        modalWindow = document.querySelector('.modal'),
+        closeModal = document.querySelector('[data-close]');
+
+    modalBtn.addEventListener('click', ()=>{
+      modalWindow.classList.add('modal_show');
+    });    
+   
+    closeModal.addEventListener('click', ()=>{
+      modalWindow.classList.remove('modal_show');
+    });
+    document.addEventListener('keydown', (e)=>{
+      if (e.code === 'Escape'){
+        modalWindow.classList.remove('modal_show');
+      }
+    });
+
+
+
   class BeerCard {
       constructor (src, alt, title, descr, parentSelector, ...classes) {
         this.src = src;
@@ -54,5 +73,38 @@ document.addEventListener('DOMContentLoaded', () => {
     'beerCard'
   ).render();
 
+//  Forms for cards 
+  const forms = document.querySelector('.firstform');
 
+  postData(forms); 
+
+
+  function postData (form) {
+    form.addEventListener ('submit', (e)=>{
+      e.preventDefault();
+      
+      const req = new XMLHttpRequest();
+      req.open('POST', 'server.php');
+      req.setRequestHeader('Content-type', 'application/json');
+      const formData = new FormData(form);
+
+      const obj = {};
+      formData.forEach(function(key, value){
+        obj[key] = value;
+      });
+      const jreq = JSON.stringify(obj);
+      req.send(jreq);
+
+      req.addEventListener('load', () => {
+        if (req.status === 200){
+          console.log(req.response);
+          form.reset();
+        }
+      }); 
+
+       
+    });
+
+   
+  }
 });

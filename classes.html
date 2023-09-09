@@ -9,12 +9,36 @@
 
     <body>
         <header>
-            <div class="header">Шаблоны карточек</div>
+            <div class="rightside">
+               <div ><img style="max-width: 80px; height: auto; object-fit: contain; border-radius: 4px;" src="https://assets.untappd.com/profile/2a62a14555932aecc3eb19947a2105c5_300x300.jpg" alt="img"></div>
+               <div class="righttitle">Шаблоны карточек</div>
+            </div>
+            <div class="leftside">
+                <button class="btnmodal">Модальное окно</button>
+            </div>
         </header>
-        <dic class="divider"></dic>
+
+
         <div class="conteiner">
            <div class="beerConteiner"></div>
         </div>
+
+
+       <div class="modal">
+           <div class="modal_dialog">
+               <div class="modal_content">
+                   <div data-close></div>
+                   <form class="firstform" action="#">
+                       <div class="modal_title">Добавить карточку</div>
+                       <input required placeholder="Выберите изображение" name="card_img" type="text" class="modal_input">
+                       <input required placeholder="Введите название" name="card_title" type="text" class="modal_input">
+                       <input required placeholder="Введите описание" name="card_descr" type="text" class="modal_input">
+                       <button class="modal_btn btn"><sapn>Подтвердить</sapn></button> 
+                   </form>
+               </div>
+           </div>
+       </div> 
+    </body>
         <script src="classes.js"></script>
     </body>
 </html>
