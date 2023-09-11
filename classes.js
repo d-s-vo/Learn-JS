@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
   
-  const modalBtn = document.querySelector('.btnmodal'),
-        modalWindow = document.querySelector('.modal'),
-        closeModal = document.querySelector('[data-close]');
+   const modalBtn = document.querySelector('.btnmodal'),
+        modalWindow = document.querySelector('.modal');
 
     modalBtn.addEventListener('click', ()=>{
       modalWindow.classList.add('modal_show');
     });    
    
-    closeModal.addEventListener('click', ()=>{
-      modalWindow.classList.remove('modal_show');
+    modalWindow.addEventListener('click', (e)=>{
+      if(e.target === modalWindow || e.target.getAttribute('data-close') == ""){
+        modalWindow.classList.remove('modal_show');
+      }
     });
     document.addEventListener('keydown', (e)=>{
       if (e.code === 'Escape'){
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  class BeerCard {
+   class BeerCard {
       constructor (src, alt, title, descr, parentSelector, ...classes) {
         this.src = src;
         this.alt = alt;
@@ -44,67 +45,76 @@ document.addEventListener('DOMContentLoaded', () => {
           `;
           this.parent.append(element);
       }
-  }
+   }
 
 
-  new BeerCard (
+   new BeerCard (
     'hmelzilla.jpg',
     'hmelzilla',
     'Хмельзилла',
     'Хмельзилла - дерзкая, яркая, охмелит разум и охмурит сердце – одним словом настоящая IPA!',
     '.beerConteiner'
-  ).render();
+   ).render();
 
-  new BeerCard (
+   new BeerCard (
     'beerkong.jpg',
     'beerkong',
     'Бирконг',
     'Яркий освежающий янтарный эль с цитрусово-травяным ароматом и дерзкой хмелевой горчинкой.',
     '.beerConteiner',
     'beerCard'
-  ).render();
+   ).render();
 
-  new BeerCard (
+   new BeerCard (
     'sgorel.jpg',
     'sgorel na rabote',
     'Сгорел на работе',
     'Благодаря суровому климату нашего региона томаты Сибирской селекции обладают особым вкусом',
     '.beerConteiner',
     'beerCard'
-  ).render();
+   ).render();
 
-//  Forms for cards 
-  const forms = document.querySelector('.firstform');
+   //  Forms for cards 
+   const forms = document.querySelector('.firstform');
 
-  postData(forms); 
+   postData(forms); 
 
 
-  function postData (form) {
+   function postData (form) {
     form.addEventListener ('submit', (e)=>{
       e.preventDefault();
       
-      const req = new XMLHttpRequest();
-      req.open('POST', 'server.php');
-      req.setRequestHeader('Content-type', 'application/json');
       const formData = new FormData(form);
-
-      const obj = {};
-      formData.forEach(function(key, value){
-        obj[key] = value;
+      // const obj = {};
+      // formData.forEach(function(value, key){
+      //   obj[key] = value;
+      // });
+      // const jreq = JSON.stringify(obj);
+      
+      fetch('server.php', {
+        method: "POST",
+        // headers: {
+        //   'Content-type': 'application/json'
+        // },
+        body: formData
+      }).then(data => data.text())
+       .then(data => {
+        console.log(data);
+      }).finally(()=>{
+        form.reset();
       });
-      const jreq = JSON.stringify(obj);
-      req.send(jreq);
 
-      req.addEventListener('load', () => {
-        if (req.status === 200){
-          console.log(req.response);
-          form.reset();
-        }
-      }); 
+      });
+
+      // req.addEventListener('load', () => {
+      //   if (req.status === 200){
+      //     console.log(req.response);
+      //     form.reset();
+      //   }
+      // }); 
 
        
-    });
+    }
 
    
-  }
 });
