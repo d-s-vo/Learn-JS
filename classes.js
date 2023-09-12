@@ -47,56 +47,72 @@ document.addEventListener('DOMContentLoaded', () => {
       }
    }
 
+   
+   const getCard = async (url) => {
+    const resp = await fetch(url);
+    if(!resp.ok){
+     throw new Error (`Could not fetch ${url}, status: ${resp.status}`); // throw выносит команду наружу из функции, new Error команда вызывающая ошибку(чтобы точно отработал catch, т.к fetch замечает не все ошибки)
+    }
+    return await resp.json();
 
-   new BeerCard (
-    'hmelzilla.jpg',
-    'hmelzilla',
-    'Хмельзилла',
-    'Хмельзилла - дерзкая, яркая, охмелит разум и охмурит сердце – одним словом настоящая IPA!',
-    '.beerConteiner'
-   ).render();
+  }; 
 
-   new BeerCard (
-    'beerkong.jpg',
-    'beerkong',
-    'Бирконг',
-    'Яркий освежающий янтарный эль с цитрусово-травяным ароматом и дерзкой хмелевой горчинкой.',
-    '.beerConteiner',
-    'beerCard'
-   ).render();
+  getCard('http://localhost:3000/menu')
+     .then(data => {
+       data.forEach(({src, alt, title, descr}) => {   //С помощью {} деструктуризировали объект полученный с сервера и как переменные указали его ключи
+         new BeerCard(src, alt, title, descr, '.beerConteiner').render();  //Переменные передали аргументами в конструктор карточек
+       });
+     });
+ 
+  //  new BeerCard (
+  //   'hmelzilla.jpg',
+  //   'hmelzilla',
+  //   'Хмельзилла',
+  //   'Хмельзилла - дерзкая, яркая, охмелит разум и охмурит сердце – одним словом настоящая IPA!',
+  //   '.beerConteiner'
+  //  ).render();
 
-   new BeerCard (
-    'sgorel.jpg',
-    'sgorel na rabote',
-    'Сгорел на работе',
-    'Благодаря суровому климату нашего региона томаты Сибирской селекции обладают особым вкусом',
-    '.beerConteiner',
-    'beerCard'
-   ).render();
+  //  new BeerCard (
+  //   'beerkong.jpg',
+  //   'beerkong',
+  //   'Бирконг',
+  //   'Яркий освежающий янтарный эль с цитрусово-травяным ароматом и дерзкой хмелевой горчинкой.',
+  //   '.beerConteiner',
+  //   'beerCard'
+  //  ).render();
+
+  //  new BeerCard (
+  //   'sgorel.jpg',
+  //   'sgorel na rabote',
+  //   'Сгорел на работе',
+  //   'Благодаря суровому климату нашего региона томаты Сибирской селекции обладают особым вкусом',
+  //   '.beerConteiner',
+  //   'beerCard'
+  //  ).render();
 
    //  Forms for cards 
    const forms = document.querySelector('.firstform');
 
-   postData(forms); 
+   bindPostData(forms); 
+   
+   const postData = async (url, data) => {
+     const resp = await fetch(url, {
+      method: 'POST',
+      headers: {'Content-type': 'application/json'},
+      body: data
+     });
+     return await resp.json();
 
+   }; 
 
-   function postData (form) {
+   function bindPostData (form) {
     form.addEventListener ('submit', (e)=>{
       e.preventDefault();
       
       const formData = new FormData(form);
-      const obj = {};
-      formData.forEach(function(value, key){
-        obj[key] = value;
-      });
+      const jsonReq = JSON.stringify(Object.fromEntries(formData.entries()));
      
-      fetch('server.php', {
-        method: "POST",
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify(obj)
-      }).then(data => data.text())
+    postData(' http://localhost:3000/requests', jsonReq)
        .then(data => {
         console.log(data);
       }).finally(()=>{

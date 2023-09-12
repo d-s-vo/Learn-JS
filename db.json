@@ -5,24 +5,32 @@
       "alt": "hmelzilla",
       "title": "Хмельзилла",
       "descr": "Хмельзилла - дерзкая, яркая, охмелит разум и охмурит сердце – одним словом настоящая IPA!"
-      
     },
     {
-      "src": "beerkong.jpgg",
+      "src": "beerkong.jpg",
       "alt": "beerkong",
       "title": "Бирконг",
       "descr": "Яркий освежающий янтарный эль с цитрусово-травяным ароматом и дерзкой хмелевой горчинкой."
-      
     },
     {
-      "src": "sgorel.jpg'",
+      "src": "sgorel.jpg",
       "alt": "sgorel na rabote",
       "title": "Сгорел на работе'",
       "descr": "Благодаря суровому климату нашего региона томаты Сибирской селекции обладают особым вкусом"
-      
     }
   ],
   "requests": [
-      
+    {
+      "card_img": "prosto ",
+      "card_title": "privet",
+      "card_descr": "kak dela",
+      "id": 1
+    },
+    {
+      "card_img": "prosto ",
+      "card_title": "privet",
+      "card_descr": "kak ",
+      "id": 2
+    }
   ]
 }
