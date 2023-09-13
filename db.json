@@ -31,6 +31,12 @@
       "card_title": "privet",
       "card_descr": "kak ",
       "id": 2
+    },
+    {
+      "card_img": "ciderDADA.jpg",
+      "card_title": "DADA сухой#1",
+      "card_descr": "Отличный сухой сидр с плотным телом",
+      "id": 3
     }
   ]
 }

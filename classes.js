@@ -64,31 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
        });
      });
  
-  //  new BeerCard (
-  //   'hmelzilla.jpg',
-  //   'hmelzilla',
-  //   'Хмельзилла',
-  //   'Хмельзилла - дерзкая, яркая, охмелит разум и охмурит сердце – одним словом настоящая IPA!',
-  //   '.beerConteiner'
-  //  ).render();
 
-  //  new BeerCard (
-  //   'beerkong.jpg',
-  //   'beerkong',
-  //   'Бирконг',
-  //   'Яркий освежающий янтарный эль с цитрусово-травяным ароматом и дерзкой хмелевой горчинкой.',
-  //   '.beerConteiner',
-  //   'beerCard'
-  //  ).render();
-
-  //  new BeerCard (
-  //   'sgorel.jpg',
-  //   'sgorel na rabote',
-  //   'Сгорел на работе',
-  //   'Благодаря суровому климату нашего региона томаты Сибирской селекции обладают особым вкусом',
-  //   '.beerConteiner',
-  //   'beerCard'
-  //  ).render();
 
    //  Forms for cards 
    const forms = document.querySelector('.firstform');
@@ -100,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       method: 'POST',
       headers: {'Content-type': 'application/json'},
       body: data
-     });
+     }); 
      return await resp.json();
 
    }; 
@@ -110,9 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       
       const formData = new FormData(form);
-      const jsonReq = JSON.stringify(Object.fromEntries(formData.entries()));
+      // const jsonReq = JSON.stringify(Object.fromEntries(formData.entries()));
+      const obj = {};
+      formData.forEach(function(value, key){
+         obj[key] = value;
+      });
      
-    postData(' http://localhost:3000/requests', jsonReq)
+    postData('http://localhost:3000/menu', JSON.stringify(obj))
        .then(data => {
         console.log(data);
       }).finally(()=>{
