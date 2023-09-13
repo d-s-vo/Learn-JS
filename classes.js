@@ -86,16 +86,21 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       
       const formData = new FormData(form);
-      // const jsonReq = JSON.stringify(Object.fromEntries(formData.entries()));
+      // const json = JSON.stringify(Object.fromEntries(formData.entries())); //Создает массив собственных перечисляемых значений объектов, полученных из формы, потом .fromEnties разбивает массив на отдельные объекты.
+      
       const obj = {};
       formData.forEach(function(value, key){
          obj[key] = value;
       });
-     
-    postData('http://localhost:3000/menu', JSON.stringify(obj))
-       .then(data => {
+      
+      const jObj = JSON.stringify(obj);
+      console.log(jObj);
+
+    postData('http://localhost:3000/menu', jObj)
+      .then(data => {
         console.log(data);
-      }).finally(()=>{
+      })
+      .finally(()=>{
         form.reset();
       });
 

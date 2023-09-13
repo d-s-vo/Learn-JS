@@ -1,6 +1,26 @@
 {
   "menu": [
     {
+      "src": "ciderDADA.jpeg",
+      "title": "DADA #1",
+      "descr": "Отличный сухой сидр с плотным телом",
+      "id": 2
+    },
+    {
+      "src": "hmelzilla.jpg",
+      "title": "Хмельзилла",
+      "descr": "Хмельзилла - дерзкая, яркая, охмелит разум и охмурит сердце – одним словом настоящая IPA!",
+      "id": 3
+    },
+    {
+      "src": "beerkong.jpg",
+      "title": "Бирконг",
+      "descr": "Яркий освежающий янтарный эль с цитрусово-травяным ароматом и дерзкой хмелевой горчинкой.",
+      "id": 4
+    }
+  ],
+  "requests": [
+    {
       "src": "hmelzilla.jpg",
       "alt": "hmelzilla",
       "title": "Хмельзилла",
@@ -17,26 +37,6 @@
       "alt": "sgorel na rabote",
       "title": "Сгорел на работе'",
       "descr": "Благодаря суровому климату нашего региона томаты Сибирской селекции обладают особым вкусом"
-    }
-  ],
-  "requests": [
-    {
-      "card_img": "prosto ",
-      "card_title": "privet",
-      "card_descr": "kak dela",
-      "id": 1
-    },
-    {
-      "card_img": "prosto ",
-      "card_title": "privet",
-      "card_descr": "kak ",
-      "id": 2
-    },
-    {
-      "card_img": "ciderDADA.jpg",
-      "card_title": "DADA сухой#1",
-      "card_descr": "Отличный сухой сидр с плотным телом",
-      "id": 3
     }
   ]
 }
