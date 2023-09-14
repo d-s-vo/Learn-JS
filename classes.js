@@ -112,4 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
    fetch('http://localhost:3000/menu')
     .then(data => data.json())
     .then(resp => console.log(resp));
+
+  //Slider
+
+const conteiner = document.querySelector('.beerConteiner'),
+      cards = document.querySelectorAll('.beerCard');
 });

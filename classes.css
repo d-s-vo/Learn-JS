@@ -32,9 +32,17 @@ header {
 
 .conteiner{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     padding: 0;
-    margin-top: 50px;
+    margin-top: 200px;
+    margin-right: auto;
+}
+.offer__slider-counter {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 60%;
 }
 .beerConteiner {
     height: 400px;
@@ -43,8 +51,7 @@ header {
     box-shadow: 0 4px 30px rgb(0, 0, 0,0.25);
     display: flex;
     justify-content: space-between;
-    padding: 50px;
-    margin: 100px 0 100px 0;
+    margin: 10px 0 10px 0;
     
 }
 .beerCard {
