@@ -91,9 +91,10 @@ header {
     text-align: center;
 }
 .calculating__field {
-    width: 100%;
-    margin-top: 50px;
+    width: 90%;
+    margin: 50px auto 50px auto;
     padding: 40px 0 40px 0;
+    box-shadow: 0 4px 30px rgb(0, 0, 0,0.25);
 }
 .calculating__subtitle {
     text-align: center;
@@ -121,6 +122,7 @@ header {
     box-shadow:0 4px 15px rgba(0,0,0,.2);
     cursor: pointer;
 }
+.calculating__choose-item-marked{color:#fff;background-color:#54ed39}
 .calculating__choose-changed{
     width:743px;justify-content:space-between;margin:30px auto 0 auto
 }
@@ -132,7 +134,6 @@ header {
 .calculating__choose-activity .calculating__choose-item {
     width: 200px;
 }
-.calculating__choose-item-marked{color:#fff;background-color:#54ed39}
 .calculating__divider {
     width: 800px;
     height: 1px;

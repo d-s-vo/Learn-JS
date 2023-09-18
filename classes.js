@@ -56,13 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return await resp.json();
   }; 
 
-  // getCard('http://localhost:3000/menu')
-  //    .then(data => {
-  //      console.log(data);
-  //      data.forEach(({src, alt, title, descr}) => {   //С помощью {} деструктуризировали объект полученный с сервера и как переменные указали его ключи
-  //        new BeerCard(src, alt, title, descr, '.beerConteiner').render();  //Переменные передали аргументами в конструктор карточек
-  //      });
-  //    });
+ 
 
  
  
@@ -136,37 +130,113 @@ document.addEventListener('DOMContentLoaded', () => {
    });
    next.addEventListener('click', (event) => {
     plusSlide(1);
-    console.log(event);
    }); 
- 
- console.log(data.length);
+  });
+
+
+
+ // Calc
+ debugger
+  const result = document.querySelector('.calculating__result span');
+  let sex = 'female',
+      height, weight, age,
+      ratio =  1.375;
+
+  function calcTotal () {
+    if (!sex, !height, !weight, !age, !ratio){ //проверка чтобы все поля были заполнены
+      result.textContent = "Введите все значения!";
+      return; //return прерывает работу фунции calcTotal
+    }
+
+    if (sex == 'female'){ //формула рассчитывающая каллорийность у мужчин и женщин
+      result.textContent = Math.round((447,6 + (9,2 * weight) + (3,2 * height) - (4,3 * age)) * ratio); 
+    } else {
+      result.textContent = Math.round((88,6 + (13,4 * weight) + (4,8 * height) - (5,7 * age)) * ratio);
+    }
+  }
+  calcTotal(); 
+
+  function getStaticData (parSelector, activeClass) {
+    const elements = document.querySelectorAll(`${parSelector} div`); 
+    
+    elements.forEach(item => {
+      item.addEventListener('click', (e)=>{ //повесил обработчик на элементы внутри родителя с id = "gender" и теперь теперь функция срабатывает только при нажатии на кнопку
+        if (e.target.getAttribute('data-ratio')) {
+          ratio = +e.target.getAttribute('data-ratio');
+        } else {
+          sex = e.target.getAttribute('id');
+        }
+        console.log(ratio, sex);
+        elements.forEach(elem => {
+          elem.classList.remove(activeClass);
+      });
+        e.target.classList.add(activeClass);
+        calcTotal();
+      });
+    });
+    // document.querySelector(parSelector).addEventListener('click', (e)=>{ //повесил обработчик на "родителя" и он срабатывает на всю область а не только на дочерние элементы
+    //   if (e.target.getAttribute('data-ratio')) {
+    //     ratio = +e.target.getAttribute('data-ratio');
+    //   } else {
+    //     sex = e.target.getAttribute('id');
+    //   }
+    //   console.log(ratio, sex);
+    //   elements.forEach(elem => {
+    //     elem.classList.remove(activeClass);
+    // });
+    //   e.target.classList.add(activeClass);
+    //   calcTotal();
+    // });
+  }
+
+  getStaticData('#gender', 'calculating__choose-item-marked');
+  getStaticData('.calculating__choose-activity', 'calculating__choose-item-marked'); 
+
+  function getDynamicData(selector){
+    const input = document.querySelector(selector);
+
+    input.addEventListener('input', () => {
+      switch (input.getAttribute('id')) {
+        case 'height':
+           height = +input.value;
+          break;
+        case 'weight':
+          weight = +input.value;
+          break;
+        case 'age':
+          age = +input.value;
+          break;     
+      }
+      calcTotal();
+    });
+  } 
+  getDynamicData('#height');
+  getDynamicData('#weight'); 
+  getDynamicData('#age');
 });
 
 
 
 
 
-  // getCard('http://localhost:3000/menu')
-  // .then(data => {
-  //   data.forEach(({src, id, title, descr}) => {  
-  //     if (id == slideIndex){
-  //       new BeerCard(src, id, title, descr, '.beerConteiner').render();
-  //     }  
-  //   });
-  // });
-  
-     
- 
-   
-  
-   
 
-  
 
-});
 
-// showSlides(slideIndex);
-//   function showSlides (n) {
+
+
+
+
+
+// getCard('http://localhost:3000/menu')  fetch который получает и отрисовывает карточки на странице
+  //    .then(data => {
+  //      console.log(data);
+  //      data.forEach(({src, alt, title, descr}) => {   //С помощью {} деструктуризировали объект полученный с сервера и как переменные указали его ключи
+  //        new BeerCard(src, alt, title, descr, '.beerConteiner').render();  //Переменные передали аргументами в конструктор карточек
+  //      });
+  //    });
+
+// showSlides(slideIndex);    Функция которая которая перебирает карточки при нажатии на стрелки навигации
+//   function showSlides (n) {       
 //    if (n > data.length) { slideIndex = 2; }
 //    if (n < 1) { slideIndex = data.length; }
 // function plusSlide (n) {
