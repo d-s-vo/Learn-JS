@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
       render () {
           const element = document.createElement('div');
           if(this.classes.length === 0){
-              this.element = 'beerCard';
-              element.classList.add(this.element);
+              const classToAdd = 'beerCard';
+              element.classList.add(classToAdd);
           } else {
               this.classes.forEach(className => element.classList.add(className));
           }
@@ -54,17 +54,18 @@ document.addEventListener('DOMContentLoaded', () => {
      throw new Error (`Could not fetch ${url}, status: ${resp.status}`); // throw выносит команду наружу из функции, new Error команда вызывающая ошибку(чтобы точно отработал catch, т.к fetch замечает не все ошибки)
     }
     return await resp.json();
-
   }; 
 
-  getCard('http://localhost:3000/menu')
-     .then(data => {
-       data.forEach(({src, alt, title, descr}) => {   //С помощью {} деструктуризировали объект полученный с сервера и как переменные указали его ключи
-         new BeerCard(src, alt, title, descr, '.beerConteiner').render();  //Переменные передали аргументами в конструктор карточек
-       });
-     });
- 
+  // getCard('http://localhost:3000/menu')
+  //    .then(data => {
+  //      console.log(data);
+  //      data.forEach(({src, alt, title, descr}) => {   //С помощью {} деструктуризировали объект полученный с сервера и как переменные указали его ключи
+  //        new BeerCard(src, alt, title, descr, '.beerConteiner').render();  //Переменные передали аргументами в конструктор карточек
+  //      });
+  //    });
 
+ 
+ 
 
    //  Forms for cards 
    const forms = document.querySelector('.firstform');
@@ -78,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
       body: data
      }); 
      return await resp.json();
-
    }; 
 
    function bindPostData (form) {
@@ -109,12 +109,74 @@ document.addEventListener('DOMContentLoaded', () => {
        
     }
 
-   fetch('http://localhost:3000/menu')
-    .then(data => data.json())
-    .then(resp => console.log(resp));
 
   //Slider
 
-const conteiner = document.querySelector('.beerConteiner'),
-      cards = document.querySelectorAll('.beerCard');
+  const prev = document.querySelector('.offer__slider-prev'),
+      next = document.querySelector('.offer__slider-next');
+  let slideIndex = 0;
+
+  getCard('http://localhost:3000/menu')
+  .then(data => {
+  function showSlides (n) {
+   if (n < 1) {slideIndex = data.length;}
+   data.forEach(({src, id, title, descr}) => {  
+    if (id == n){
+      new BeerCard(src, id, title, descr, '.beerConteiner').render();
+    }  
+  });
+  }
+
+  function plusSlide (n) {
+    showSlides(slideIndex += n);
+   }
+
+   prev.addEventListener ('click', () =>{
+    plusSlide(-1);
+   });
+   next.addEventListener('click', (event) => {
+    plusSlide(1);
+    console.log(event);
+   }); 
+ 
+ console.log(data.length);
 });
+
+
+
+
+
+  // getCard('http://localhost:3000/menu')
+  // .then(data => {
+  //   data.forEach(({src, id, title, descr}) => {  
+  //     if (id == slideIndex){
+  //       new BeerCard(src, id, title, descr, '.beerConteiner').render();
+  //     }  
+  //   });
+  // });
+  
+     
+ 
+   
+  
+   
+
+  
+
+});
+
+// showSlides(slideIndex);
+//   function showSlides (n) {
+//    if (n > data.length) { slideIndex = 2; }
+//    if (n < 1) { slideIndex = data.length; }
+// function plusSlide (n) {
+//   showSlides(slideIndex += n);
+//  }
+// }
+//  prev.addEventListener ('click', () =>{
+//   plusSlide(-1);
+//  });
+//  next.addEventListener('click', (event) => {
+//   plusSlide(1);
+//   console.log(event);
+//  }); 
