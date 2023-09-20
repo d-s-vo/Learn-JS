@@ -108,19 +108,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const prev = document.querySelector('.offer__slider-prev'),
       next = document.querySelector('.offer__slider-next');
-  let slideIndex = 0;
+  let slideIndex = 2;
 
   getCard('http://localhost:3000/menu')
   .then(data => {
-  function showSlides (n) {
-   if (n < 1) {slideIndex = data.length;}
+  function showSlides (n = 2) {
    data.forEach(({src, id, title, descr}) => {  
-    if (id == n){
+    if (id === n){
       new BeerCard(src, id, title, descr, '.beerConteiner').render();
     }  
   });
   }
-
+  showSlides();
   function plusSlide (n) {
     showSlides(slideIndex += n);
    }
@@ -136,20 +135,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
  // Calc
- debugger
   const result = document.querySelector('.calculating__result span');
-  let sex = 'female',
-      height, weight, age,
+  let sex, height, weight, age,
       ratio =  1.375;
 
+  if (localStorage.getItem('sex')){
+    sex = localStorage.getItem('sex');
+  } else {
+    sex = 'female';
+    localStorage.setItem('sex', 'male');
+  }
+  if (localStorage.getItem('ratio')){
+    ratio = localStorage.getItem('ratio');
+  } else {
+    ratio = 1.375;
+    localStorage.setItem('ratio', 1.375);
+  }
+
   function calcTotal () {
-    if (!sex, !height, !weight, !age, !ratio){ //проверка чтобы все поля были заполнены
-      result.textContent = "Введите все значения!";
+    if (!sex || !height || !weight || !age || !ratio){ //проверка чтобы все поля были заполнены
+      result.textContent  = "Введите все значения!";
       return; //return прерывает работу фунции calcTotal
     }
 
     if (sex == 'female'){ //формула рассчитывающая каллорийность у мужчин и женщин
-      result.textContent = Math.round((447,6 + (9,2 * weight) + (3,2 * height) - (4,3 * age)) * ratio); 
+      result.textContent = Math.round((447,6 + (9,2 * weight) + (3,2 * height) - (4,3 * age)) * ratio);
     } else {
       result.textContent = Math.round((88,6 + (13,4 * weight) + (4,8 * height) - (5,7 * age)) * ratio);
     }
@@ -158,22 +168,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getStaticData (parSelector, activeClass) {
     const elements = document.querySelectorAll(`${parSelector} div`); 
+
+   
     
     elements.forEach(item => {
-      item.addEventListener('click', (e)=>{ //повесил обработчик на элементы внутри родителя с id = "gender" и теперь теперь функция срабатывает только при нажатии на кнопку
+
+      item.addEventListener('click', (e)=>{ //повесил обработчик на дивы внутри родителя с id = "gender" и теперь теперь функция срабатывает только при нажатии на соответствующий див
+
         if (e.target.getAttribute('data-ratio')) {
           ratio = +e.target.getAttribute('data-ratio');
+          localStorage.setItem('ratio', +e.target.getAttribute('data-ratio'));
+          localStorage.setItem('marked', 'done');
         } else {
           sex = e.target.getAttribute('id');
+          localStorage.setItem('sex', e.target.getAttribute('id'));
+          localStorage.setItem('marked', 'done');
         }
+
         console.log(ratio, sex);
         elements.forEach(elem => {
           elem.classList.remove(activeClass);
       });
         e.target.classList.add(activeClass);
+        
         calcTotal();
       });
+    
     });
+
+    elements.forEach(elem => {
+      // elem.classList.remove(activeClass);
+      if(elem.getAttribute('id') === localStorage.getItem('sex')){
+        elem.classList.add(activeClass);
+      }
+      if(elem.getAttribute('data-ratio') === localStorage.getItem('ratio')){
+        elem.classList.add(activeClass);
+      }
+    });
+    
+   
+    
     // document.querySelector(parSelector).addEventListener('click', (e)=>{ //повесил обработчик на "родителя" и он срабатывает на всю область а не только на дочерние элементы
     //   if (e.target.getAttribute('data-ratio')) {
     //     ratio = +e.target.getAttribute('data-ratio');
@@ -194,8 +228,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getDynamicData(selector){
     const input = document.querySelector(selector);
-
+          
     input.addEventListener('input', () => {
+      this.input = input;
+      // console.log(this.input);
+
+      if (input.value.match(/\D/g)){
+        alert(`Ввели не верное значение в поле ${this.input.id}`);
+        
+      }
+
       switch (input.getAttribute('id')) {
         case 'height':
            height = +input.value;
@@ -213,8 +255,12 @@ document.addEventListener('DOMContentLoaded', () => {
   getDynamicData('#height');
   getDynamicData('#weight'); 
   getDynamicData('#age');
-});
 
+  
+ 
+
+}); 
+ 
 
 
 
@@ -250,3 +296,5 @@ document.addEventListener('DOMContentLoaded', () => {
 //   plusSlide(1);
 //   console.log(event);
 //  }); 
+//const logg = "Велосипед - это 109988980 процентов лучший спортивный снаряд";
+//console.dir(logg.match(/\w/g).join('').slice(0, 6)); //выбрал в троке только числаю полученный массив преобразовал в строку и вырезал символы до 6 позиции
