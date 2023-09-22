@@ -1,25 +1,25 @@
 {
   "menu": [
     {
-      "src": "ciderDADA.jpeg",
+      "src": "./picture/ciderDADA.jpeg",
       "title": "DADA #1",
       "descr": "Отличный сухой сидр с плотным телом",
       "id": 2
     },
     {
-      "src": "hmelzilla.jpg",
+      "src": "./picture/hmelzilla.jpg",
       "title": "Хмельзилла",
       "descr": "Хмельзилла - дерзкая, яркая, охмелит разум и охмурит сердце – одним словом настоящая IPA!",
       "id": 3
     },
     {
-      "src": "beerkong.jpg",
+      "src": "./picture/beerkong.jpg",
       "title": "Бирконг",
       "descr": "Яркий освежающий янтарный эль с цитрусово-травяным ароматом и дерзкой хмелевой горчинкой.",
       "id": 4
     },
     {
-      "src": "sgorel.jpg",
+      "src": "./picture/sgorel.jpg",
       "title": "Сгорел на работе",
       "descr": "Благодаря суровому климату нашего региона томаты Сибирской селекции обладают особым вкусом.",
       "id": 5

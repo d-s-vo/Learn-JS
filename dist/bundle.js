@@ -1,113 +1,14 @@
-document.addEventListener('DOMContentLoaded', () => {
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
+/***/ "./js/modules/calculator.js":
+/*!**********************************!*\
+  !*** ./js/modules/calculator.js ***!
+  \**********************************/
+/***/ ((module) => {
 
+function calculator (){
 
-  //Конструктор карточек 
-   class BeerCard {
-      constructor (src, alt, title, descr, parentSelector, ...classes) {
-        this.src = src;
-        this.alt = alt;
-        this.title = title;
-        this.descr = descr;
-        this.classes = classes;
-        this.parent = document.querySelector(parentSelector);
-      }
-
-      render () {
-        const element = document.createElement('div');
-        if(this.classes.length === 0){
-            const classToAdd = 'beerCard';
-            element.classList.add(classToAdd);
-        } else {
-            this.classes.forEach(className => element.classList.add(className));
-        }
-        element.innerHTML = `
-          <img class="beerImg" src="${this.src}" alt="${this.alt}">
-          <h3 class="beerHeader">"${this.title}"</h3>
-          <div class="beerDescr">"${this.descr}"</class> 
-        `;
-        this.parent.append(element);
-      }
-   } 
-   const getCard = async (url) => {
-    const resp = await fetch(url);
-    if(!resp.ok){
-     throw new Error (`Could not fetch ${url}, status: ${resp.status}`); // throw выносит команду наружу из функции, new Error команда вызывающая ошибку(чтобы точно отработал catch, т.к fetch замечает не все ошибки)
-    }
-    return await resp.json();
-  }; 
-
- 
-
-   //  Forms for cards 
-   const forms = document.querySelector('.firstform');
-
-   bindPostData(forms); 
-   
-   const postData = async (url, data) => {
-     const resp = await fetch(url, {
-      method: 'POST',
-      headers: {'Content-type': 'application/json'},
-      body: data
-     }); 
-     return await resp.json();
-   }; 
-
-   function bindPostData (form) {
-    form.addEventListener ('submit', (e)=>{
-      e.preventDefault();
-      
-      const formData = new FormData(form);
-      const obj = {};
-      formData.forEach(function(value, key){
-         obj[key] = value;
-      });
-      
-      const jObj = JSON.stringify(obj);
-      console.log(jObj);
-
-      postData('http://localhost:3000/menu', jObj)
-      .then(data => {
-        console.log(data);
-      })
-      .finally(()=>{
-        form.reset();
-      });
-     }); 
-    }
-
-
-  //Slider
-
-  const prev = document.querySelector('.offer__slider-prev'),
-      next = document.querySelector('.offer__slider-next');
-  let slideIndex = 2;
-
-  getCard('http://localhost:3000/menu')
-  .then(data => {
-  function showSlides (n = 2) {
-   data.forEach(({src, id, title, descr}) => {  
-    if (id === n){
-      new BeerCard(src, id, title, descr, '.beerConteiner').render();
-    }  
-  });
-  }
-  showSlides();
-  function plusSlide (n) {
-    showSlides(slideIndex += n);
-   }
-
-   prev.addEventListener ('click', () =>{
-    plusSlide(-1);
-   });
-   next.addEventListener('click', (event) => {
-    plusSlide(1);
-   }); 
-  });
-
-
-
- // Calc
   const result = document.querySelector('.calculating__result span');
   let sex, height, weight, age,
       ratio =  1.375;
@@ -211,13 +112,220 @@ document.addEventListener('DOMContentLoaded', () => {
   getDynamicData('#height');
   getDynamicData('#weight'); 
   getDynamicData('#age');
+}
 
+module.exports = calculator;
+
+/***/ }),
+
+/***/ "./js/modules/cardsample.js":
+/*!**********************************!*\
+  !*** ./js/modules/cardsample.js ***!
+  \**********************************/
+/***/ ((module) => {
+
+function cardsample() {
+     //Шаблон для карточек и их вызов с сервера при еажатии на стрелки
+  //Конструктор карточек 
+   class BeerCard {
+    constructor (src, alt, title, descr, parentSelector, ...classes) {
+      this.src = src;
+      this.alt = alt;
+      this.title = title;
+      this.descr = descr;
+      this.classes = classes;
+      this.parent = document.querySelector(parentSelector);
+    }
+
+    render () {
+        const element = document.createElement('div');
+        if(this.classes.length === 0){
+            const classToAdd = 'beerCard';
+            element.classList.add(classToAdd);
+        } else {
+            this.classes.forEach(className => element.classList.add(className));
+        }
+        element.innerHTML = `
+          <img class="beerImg" src="${this.src}" alt="${this.alt}">
+          <h3 class="beerHeader">"${this.title}"</h3>
+          <div class="beerDescr">"${this.descr}"</class> 
+        `;
+        this.parent.append(element);
+    }
+ }
+
+ const getCard = async (url) => {
+  const resp = await fetch(url);
+  if(!resp.ok){
+   throw new Error (`Could not fetch ${url}, status: ${resp.status}`); // throw выносит команду наружу из функции, new Error команда вызывающая ошибку(чтобы точно отработал catch, т.к fetch замечает не все ошибки)
+  }
+  return await resp.json();
+}; 
+
+//Slider
+
+const prev = document.querySelector('.offer__slider-prev'),
+    next = document.querySelector('.offer__slider-next');
+let slideIndex = 2;
+
+getCard('http://localhost:3000/menu')
+.then(data => {
+function showSlides (n = 2) {
+ data.forEach(({src, id, title, descr}) => {  
+  if (id === n){
+    new BeerCard(src, id, title, descr, '.beerConteiner').render();
+  }  
+});
+}
+showSlides();
+function plusSlide (n) {
+  showSlides(slideIndex += n);
+ }
+
+ prev.addEventListener ('click', () =>{
+  plusSlide(-1);
+ });
+ next.addEventListener('click', (event) => {
+  plusSlide(1);
+ }); 
+});
+}
+
+module.exports = cardsample;
+
+/***/ }),
+
+/***/ "./js/modules/postingform.js":
+/*!***********************************!*\
+  !*** ./js/modules/postingform.js ***!
+  \***********************************/
+/***/ ((module) => {
+
+function postingform () {
+      // Постинг на сервер через форму
+   const forms = document.querySelector('.firstform');
+
+   bindPostData(forms); 
+   
+   const postData = async (url, data) => {
+     const resp = await fetch(url, {
+      method: 'POST',
+      headers: {'Content-type': 'application/json'},
+      body: data
+     }); 
+     return await resp.json();
+   }; 
+
+   function bindPostData (form) {
+    form.addEventListener ('submit', (e)=>{
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      const obj = {};
+      formData.forEach(function(value, key){
+         obj[key] = value;
+      });
+      
+      const jObj = JSON.stringify(obj);
+      console.log(jObj);
+
+      postData('http://localhost:3000/menu', jObj)
+      .then(data => {
+        console.log(data);
+      })
+      .finally(()=>{
+        form.reset();
+      });
+     }); 
+    }
+}
+
+module.exports = postingform;
+
+/***/ }),
+
+/***/ "./js/modules/showmodal.js":
+/*!*********************************!*\
+  !*** ./js/modules/showmodal.js ***!
+  \*********************************/
+/***/ ((module) => {
+
+function showmodal () {
+
+  // Вызов и закрытие модального окна
+   const modalBtn = document.querySelector('.btnmodal'),
+   modalWindow = document.querySelector('.modal');
+
+  modalBtn.addEventListener('click', ()=>{
+  modalWindow.classList.add('modal_show');
+  });    
+
+  modalWindow.addEventListener('click', (e)=>{
+  if(e.target === modalWindow || e.target.getAttribute('data-close') == ""){
+    modalWindow.classList.remove('modal_show');
+  }
+  });
+  document.addEventListener('keydown', (e)=>{
+  if (e.code === 'Escape'){
+    modalWindow.classList.remove('modal_show');
+  }
+  });
+}
+
+module.exports = showmodal;
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+/*!***********************!*\
+  !*** ./js/classes.js ***!
+  \***********************/
+document.addEventListener('DOMContentLoaded', () => {
+  
+    const calculator = __webpack_require__(/*! ./modules/calculator */ "./js/modules/calculator.js"),
+          cardsample = __webpack_require__(/*! ./modules/cardsample */ "./js/modules/cardsample.js"),
+          showmodal = __webpack_require__(/*! ./modules/showmodal */ "./js/modules/showmodal.js"),
+          postingform = __webpack_require__(/*! ./modules/postingform */ "./js/modules/postingform.js");
+
+          calculator();
+          cardsample();
+          postingform();
+          showmodal();
 }); 
  
 
 
 
-
+  
 
 
 
@@ -297,3 +405,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // dmitry.name = "Ivan";
   // dmitry.surname = "Stepanov";
   // dmitry.say();
+})();
+
+/******/ })()
+;
+//# sourceMappingURL=bundle.js.map
